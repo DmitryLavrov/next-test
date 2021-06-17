@@ -1,34 +1,88 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## NextJS Быстрый Курс - SSR на React JS [2020]
 
-First, run the development server:
+by Vladilen Minin
 
-```bash
-npm run dev
-# or
-yarn dev
+```shell
+npx create-next-app next-test
+cd next-test
+
+npm install sass
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[JSON Server](https://github.com/typicode/json-server)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+```shell
+npm install -g json-server
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+json-server db.json -w -p 3030 -d 450
+```
+[Concurrently](https://www.npmjs.com/package/concurrently)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```shell
+npm i -D concurrently
+```
 
-## Learn More
+In common case SSR doesn't work:
+```js
+export default function Posts() {
+  const [posts, setPosts] = useState()
 
-To learn more about Next.js, take a look at the following resources:
+  useEffect(() => {
+    async function load() {
+      const response = await fetch('http://localhost:3030/posts')
+      const json = await response.json()
+      setPosts(json)
+    }
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    load()
+  }, [])
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  return <pre>{JSON.stringify(posts, null, 2)}</pre>
+}
+```
 
-## Deploy on Vercel
+getInitialProps - SSR works well
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```js
+export default function Posts({posts}) {
+  return <pre>{JSON.stringify(posts, null, 2)}</pre>
+}
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Posts.getInitialProps = async () => {
+  const res = await fetch('http://localhost:3030/posts')
+  const json = await res.json()
+  return { posts: json }
+}
+```
+
+using __getServerSideProps__ instead of getInitialProps
+
+```js
+export async function getServerSideProps({req}) {
+  const res = await fetch('http://localhost:3030/posts')
+  const json = await res.json()
+  return {
+    props: {posts: json}, // will be passed to the page component as props
+  }
+}
+```
+
+### Next.js Progressbar
+
+```shell
+npm i nextjs-progressbar --force
+```
+Configuring _app.js
+```js
+import NextNprogress from 'nextjs-progressbar'
+import '../styles/main.scss'
+
+export default function MyApp({Component, pageProps}) {
+  return <>
+    <NextNprogress/>
+    <Component {...pageProps} />
+  </>
+}
+```

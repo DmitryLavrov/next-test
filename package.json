@@ -6,12 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "mock": "json-server db.json -w -p 3030 -d 3050"
   },
   "dependencies": {
     "next": "11.0.0",
+    "nextjs-progressbar": "^0.0.10",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "sass": "^1.35.1"
   },
   "devDependencies": {
     "eslint": "7.28.0",
