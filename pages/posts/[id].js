@@ -10,7 +10,7 @@ export default function Post({post: serverPost}) {
 
   useEffect(() => {
     async function load() {
-      const response = await fetch(`http://localhost:3030/posts/${router.query.id}`)
+      const response = await fetch(`${process.env.API_URL}/posts/${router.query.id}`)
       const json = await response.json()
       setPost(json)
     }

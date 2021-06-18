@@ -91,7 +91,7 @@ export default function MyApp({Component, pageProps}) {
   </>
 }
 ```
-
+### Creating EndPoints
 API by id: http://localhost:3000/api/echo/37
 
 ```javascript
@@ -101,3 +101,19 @@ export default function echoById(req, res) {
   })
 }
 ```
+### next.config.js
+```javascript
+module.exports = {
+  env: {
+    API_URL: 'http://localhost:3030'
+  }
+}
+```
+Now we can use global variable `process.env.API_URL`
+
+### [dotenv](https://www.npmjs.com/package/dotenv) 
+Storing configuration in the environment separate from code
+```shell
+npm install dotenv
+```
+Dotenv loads environment variables from a .env file into process.env
