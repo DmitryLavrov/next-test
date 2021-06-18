@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "mock": "json-server db.json -w -p 3030 -d 3050"
+    "mock": "json-server db.json -w -p 3030 -d 2050"
   },
   "dependencies": {
     "next": "11.0.0",

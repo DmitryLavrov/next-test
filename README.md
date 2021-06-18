@@ -1,4 +1,5 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a [Next.js](https://nextjs.org/) project bootstrapped
+with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## NextJS Быстрый Курс - SSR на React JS [2020]
 
@@ -18,6 +19,7 @@ npm install -g json-server
 
 json-server db.json -w -p 3030 -d 450
 ```
+
 [Concurrently](https://www.npmjs.com/package/concurrently)
 
 ```shell
@@ -25,6 +27,7 @@ npm i -D concurrently
 ```
 
 In common case SSR doesn't work:
+
 ```js
 export default function Posts() {
   const [posts, setPosts] = useState()
@@ -53,7 +56,7 @@ export default function Posts({posts}) {
 Posts.getInitialProps = async () => {
   const res = await fetch('http://localhost:3030/posts')
   const json = await res.json()
-  return { posts: json }
+  return {posts: json}
 }
 ```
 
@@ -74,7 +77,9 @@ export async function getServerSideProps({req}) {
 ```shell
 npm i nextjs-progressbar --force
 ```
+
 Configuring _app.js
+
 ```js
 import NextNprogress from 'nextjs-progressbar'
 import '../styles/main.scss'
@@ -84,5 +89,15 @@ export default function MyApp({Component, pageProps}) {
     <NextNprogress/>
     <Component {...pageProps} />
   </>
+}
+```
+
+API by id: http://localhost:3000/api/echo/37
+
+```javascript
+export default function echoById(req, res) {
+  res.json({
+    message: req.query.id
+  })
 }
 ```
